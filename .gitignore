@@ -1,0 +1,9 @@
+.*
+terraform.tfs*
+secrets*
+!.gitignore
+certs
+terraform
+keys/
+terraform.pub
+
