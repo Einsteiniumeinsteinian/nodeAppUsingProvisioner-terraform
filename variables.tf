@@ -11,11 +11,11 @@ default = "eu-west-3"
 # }
 
 variable "PATH_TO_PRIVATE_KEY" {
-  default = "terraform"
+  default = "./keys/terraform"
 }
 
 variable "PATH_TO_PUBLIC_KEY" {
-  default = "terraform.pub"
+  default = "./keys/terraform.pub"
 }
 
 variable "INSTANCE_USERNAME" {

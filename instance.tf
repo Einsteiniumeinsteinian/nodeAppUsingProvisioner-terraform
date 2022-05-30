@@ -7,6 +7,7 @@ resource "aws_instance" "web" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   key_name = aws_key_pair.einstein_key.key_name
+  vpc_security_group_ids = [ aws_security_group.webSG.id ]
 
   tags = {
     Name = "nodeNginxProxyWebServer"
@@ -22,7 +23,7 @@ resource "aws_instance" "web" {
   # }
 
   provisioner "file" {
-    source = "install.sh"
+    source = "./scripts/install.sh"
     destination = "/home/ubuntu/install.sh"
   }
 
@@ -44,8 +45,29 @@ resource "aws_instance" "web" {
 }
 
 
+resource "aws_security_group" "webSG" {
+  name        = "webSG"
+  description = "Allow ssh  inbound traffic"
 
-#security Group
-#Vpc
-#key pairs
-#connect to vm 
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+
+  }
+}
